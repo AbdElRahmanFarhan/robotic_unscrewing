@@ -1,0 +1,15 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: robotic_unscrewing
+    container_name: devcontainer
+    network_mode: "host" 
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro 
+    entrypoint: ["/bin/bash"]
+    tty: true
+    stdin_open: true
