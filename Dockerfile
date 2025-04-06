@@ -12,6 +12,7 @@ WORKDIR /home/ubuntu/ros2_ws
 RUN mkdir src
 
 COPY ./lion_robot_description ./src/lion_robot_description
+COPY ./lion_moveit_config ./src/lion_moveit_config
 
 RUN colcon build
 
