@@ -1,3 +1,7 @@
+from geometry_msgs.msg import Pose
+from screw_msgs.srv import DetectScrews
+import json
+
 def json_pose_to_pose_msg(json_pose):
     pose_msg = Pose()
     pose_msg.position.x = json_pose["position"][0]
@@ -21,7 +25,7 @@ def json_data_to_ros(screws_data):
     return response
     
     
-def read_screw_poses_from_json(self, screws_data_file):
+def read_screw_poses_from_json(screws_data_file):
         with open(screws_data_file) as file:
             data = json.load(file)
         return data
