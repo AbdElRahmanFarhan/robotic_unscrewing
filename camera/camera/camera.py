@@ -1,25 +1,21 @@
 import rclpy
 from rclpy.node import Node
-from std_srvs.srv import Empty, Empty_Response, Empty_Request
-import json
-
+from screw_msgs.srv import DetectScrews
+from camera.utils import read_screw_poses_from_json, json_data_to_ros, json_pose_to_pose_msg
+    
 class Camera(Node):
     def __init__(self):
         super().__init__('camera')
-        self.create_service(Empty, 'detect_screws_service', self.detect_screws)
-        self.declare_parameter('screw_poses_file', '')
-        self.screw_poses_file = self.get_parameter('screw_poses_file').value
-        self.get_logger().info("Hello from the camera node!")
+        self.create_service(DetectScrews, 'detect_screws_service', self.detect_screws)
+        self.declare_parameter('screws_data_file', '')
+        self.screws_data_file = self.get_parameter('screws_data_file').value
+        self.get_logger().info("Camera node is running!")
 
     def detect_screws(self, requst, response):
-        screw_poses = self.read_screw_poses_from_json(self.screw_poses_file)
-        response = Empty_Response()
-        return response    
-    
-    def read_screw_poses_from_json(self, screw_poses_file):
-        with open(screw_poses_file) as file:
-            data = json.load(file)
-        return data
+        self.get_logger().info("Camera node received a request for detecting screws!")
+        screws_data = read_screw_poses_from_json(self.screws_data_file)
+        response = json_data_to_ros(screws_data)        
+        return response
     
 def main(args=None):
     rclpy.init(args=args)
