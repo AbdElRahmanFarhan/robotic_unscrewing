@@ -2,10 +2,7 @@ from setuptools import find_packages, setup
 import os
 import glob
 
-
-package_name = 'lion_robot_description'
-irb6640_205_files = glob.glob('meshes/irb6640_205/*.dae')
-screwdriver_files = glob.glob('meshes/screwdriver/*.dae')
+package_name = 'camera'
 
 setup(
     name=package_name,
@@ -15,13 +12,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/lion_robot_description/launch', ['launch/view_robot_launch.py']),
-        ('share/lion_robot_description/urdf', ['urdf/robot_w_screwdriver.urdf']),
-        ('share/lion_robot_description/meshes/irb6640_205', irb6640_205_files),
-        ('share/lion_robot_description/meshes/screwdriver', screwdriver_files),
-        ('share/lion_robot_description/config', ['config/robot.rviz']),
-
-
+        (os.path.join('share', package_name, 'config'), ['config/screw_poses.json']),
+        (os.path.join('share', package_name, 'launch'), ['launch/camera.launch.py'])
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -31,7 +23,7 @@ setup(
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
-        'console_scripts': [
+        'console_scripts': ['camera = camera.camera:main'
         ],
     },
 )

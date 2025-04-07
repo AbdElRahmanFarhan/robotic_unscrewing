@@ -12,6 +12,7 @@ RUN mkdir src
 
 COPY ./lion_robot_description ./src/lion_robot_description
 COPY ./lion_moveit_config ./src/lion_moveit_config
+COPY ./camera ./src/camera
 
 RUN /bin/bash -c "source /opt/ros/jazzy/setup.bash && colcon build"
 
