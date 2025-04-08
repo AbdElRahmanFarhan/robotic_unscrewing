@@ -1,11 +1,20 @@
+#include <chrono>
+#include <functional>
 #include <memory>
+#include <string>
+
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
 #include <geometry_msgs/msg/pose.hpp>
 #include <geometry_msgs/msg/pose_array.hpp>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <moveit/move_group_interface/move_group_interface.hpp>
 #include <moveit_msgs/msg/robot_trajectory.hpp>
 #include <moveit/robot_state/robot_state.hpp>
+
+#include "tf2/exceptions.h"
+#include "tf2_ros/transform_listener.h"
+#include "tf2_ros/buffer.h"
 
 using std::placeholders::_1;
 
@@ -15,11 +24,17 @@ public:
         : node_(node),
           move_group_(node_, "screwdriver_group")
     {
-        sub1_ = node_->create_subscription<std_msgs::msg::String>("/lion_control/go_to_named_target", 10, 
+        sub1_ = node_->create_subscription<std_msgs::msg::String>("/lion_control/go_to_named_target", 1, 
             std::bind(&LionControlNode::goToNamedTarget, this, _1));
 
-        sub2_ = node_->create_subscription<std_msgs::msg::String>("/lion_control/move_cartesian", 10, 
-            std::bind(&LionControlNode::moveCartesianCallback, this, _1));
+        sub2_ = node_->create_subscription<geometry_msgs::msg::PoseStamped>("/lion_control/move_straight", 1, 
+            std::bind(&LionControlNode::moveStraightCallback, this, _1));
+        
+        sub3_ = node_->create_subscription<geometry_msgs::msg::PoseStamped>("/lion_control/go_to_pose_target", 1, 
+            std::bind(&LionControlNode::goToPoseTarget, this, _1));
+
+        tf_buffer_ = std::make_unique<tf2_ros::Buffer>(node_->get_clock());
+        tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
     }
 
 private:
@@ -29,34 +44,33 @@ private:
         move_group_.setNamedTarget("home");
         moveit::core::MoveItErrorCode result = move_group_.move();
     }
-
-    void moveCartesianCallback(const std_msgs::msg::String::SharedPtr msg) 
+    void goToPoseTarget(const geometry_msgs::msg::PoseStamped::SharedPtr goal) 
     {
-        RCLCPP_INFO(node_->get_logger(), "Received command: '%s'", msg->data.c_str());
-        geometry_msgs::msg::Pose goal;
-        goal.position.x = 1.763;
-        goal.position.y = 0;
-        goal.position.z = 1.8;
-        goal.orientation.x = 0;
-        goal.orientation.y = 0;
-        goal.orientation.z = 0;
-        goal.orientation.w = 1;
-        std::vector<geometry_msgs::msg::Pose> path;
-        path.push_back(goal);
+        RCLCPP_INFO(node_->get_logger(), "Received Pose Target");
+        move_group_.setPoseTarget(*goal, "screwdriver_tcp");
+        moveit::core::MoveItErrorCode result = move_group_.move();
+    }
 
-        bool success = moveCartesian(path, "base_link");
+    void moveStraightCallback(const geometry_msgs::msg::PoseStamped::SharedPtr goal) 
+    {
+        RCLCPP_INFO(node_->get_logger(), "Received Move Straight Target");
+        move_group_.setEndEffectorLink("screwdriver_tcp");
+        RCLCPP_INFO(node_->get_logger(), "End effector Link: '%s'", move_group_.getEndEffectorLink().c_str());
+        bool success = moveStraight(*goal);
         RCLCPP_INFO(node_->get_logger(), "Cartesian Motion: '%d'", success);
-        RCLCPP_INFO(node_->get_logger(), "Received command: '%s'", msg->data.c_str());
     }   
     
-
-    bool moveCartesian(const std::vector<geometry_msgs::msg::Pose> path,
-        std::string frame_id,
+    bool moveStraight(const geometry_msgs::msg::PoseStamped goal,
         bool avoid_collisions = true, 
         double eef_step = 0.001)
     {
+        std::string frame_id = "base_link";
+        geometry_msgs::msg::PoseStamped goal_transformed = tf_buffer_->transform(goal, frame_id);
+        std::vector<geometry_msgs::msg::Pose> path;
+        path.push_back(goal_transformed.pose);
         move_group_.setPoseReferenceFrame(frame_id);
-
+        
+        
         moveit_msgs::msg::RobotTrajectory trajectory;
         
         move_group_.computeCartesianPath(path, eef_step, trajectory, avoid_collisions);
@@ -95,7 +109,10 @@ private:
     rclcpp::Node::SharedPtr node_;
     moveit::planning_interface::MoveGroupInterface move_group_;
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr sub1_;
-    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr sub2_;
+    rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr sub2_;
+    rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr sub3_;
+    std::shared_ptr<tf2_ros::TransformListener> tf_listener_{nullptr};
+    std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
 
 };
 
