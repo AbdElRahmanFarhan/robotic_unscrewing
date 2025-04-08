@@ -27,7 +27,7 @@
         <joint name="joint_6" value="0"/>
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="screwdriver_bit" parent_link="screwdriver_tcp" group="screwdriver_group"/>
+    <end_effector name="screwdriver_bit" parent_link="screwdriver_tcp" group="screwdriver_group" parent_group=""/>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="world_joint" type="fixed" parent_frame="base_link" child_link="base"/>
     <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
