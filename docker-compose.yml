@@ -10,11 +10,7 @@ services:
       - DISPLAY=${DISPLAY}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro 
-      - /home/abdelrahman/circu_li_ion_case_study/robotic_unscrewing/lion_robot_description:/home/ubuntu/ros2_ws/src/lion_robot_description
-      - /home/abdelrahman/circu_li_ion_case_study/robotic_unscrewing/lion_moveit_config:/home/ubuntu/ros2_ws/src/lion_moveit_config
-      - /home/abdelrahman/circu_li_ion_case_study/robotic_unscrewing/camera:/home/ubuntu/ros2_ws/src/camera
-      - /home/abdelrahman/circu_li_ion_case_study/robotic_unscrewing/screw_msgs:/home/ubuntu/ros2_ws/src/screw_msgs
-      - /home/abdelrahman/circu_li_ion_case_study/robotic_unscrewing/lion_control:/home/ubuntu/ros2_ws/src/lion_control
+      - /home/abdelrahman/circu_li_ion_case_study/robotic_unscrewing/src:/home/ubuntu/ros2_ws/src/
 
     entrypoint: ["/bin/bash"]
     tty: true

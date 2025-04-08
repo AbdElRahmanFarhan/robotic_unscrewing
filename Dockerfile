@@ -10,11 +10,7 @@ WORKDIR /home/ubuntu/ros2_ws
 
 RUN mkdir src
 
-COPY ./lion_robot_description ./src/lion_robot_description
-COPY ./lion_moveit_config ./src/lion_moveit_config
-COPY ./camera ./src/camera
-COPY ./screw_msgs ./src/screw_msgs
-COPY ./lion_control ./src/lion_control
+COPY ./src ./src
 
 RUN /bin/bash -c "source /opt/ros/jazzy/setup.bash && colcon build"
 
