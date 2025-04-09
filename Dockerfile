@@ -1,5 +1,11 @@
 FROM moveit/moveit2:jazzy-release
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  ros-jazzy-yasmin \
+  ros-jazzy-yasmin-* \
+  git \
+  && rm -rf /var/lib/apt/lists/*
+
 USER ubuntu
 
 WORKDIR /home/ubuntu
