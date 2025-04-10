@@ -27,6 +27,7 @@ ament_target_dependencies(
   "moveit_visual_tools"
   "moveit_msgs"
   "lion_msgs"
+  "rclcpp_action"
 )
 
 install(TARGETS lion_control_node

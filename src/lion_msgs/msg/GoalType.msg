@@ -1,0 +1,4 @@
+int32 val
+int32 STRAIGHT=0
+int32 NAMED=1
+int32 POSE=2

@@ -1,6 +1,7 @@
-string goal_type
+lion_msgs/GoalType goal_type
 geometry_msgs/PoseStamped pose_goal
 string named_goal
----
+string end_effector
 ---
 bool success
+---
