@@ -12,7 +12,7 @@ find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   # "msg/Screw.msg"
-  "srv/DetectScrews.srv"
+  "srv/GetDetectedScrews.srv"
   DEPENDENCIES geometry_msgs
 )
 # uncomment the following section in order to fill in

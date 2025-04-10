@@ -1,5 +1,5 @@
 from geometry_msgs.msg import Pose
-from camera_msgs.srv import DetectScrews
+from camera_msgs.srv import GetDetectedScrews
 import json
 
 def json_pose_to_pose_msg(json_pose):
@@ -15,7 +15,7 @@ def json_pose_to_pose_msg(json_pose):
     
     
 def json_data_to_ros(screws_data):
-    response = DetectScrews.Response()
+    response = GetDetectedScrews.Response()
     screws_poses = screws_data["screws"]["poses"]
     response.poses = [json_pose_to_pose_msg(screw_pose) for screw_pose in screws_poses]
     response.type = screws_data["screws"]["screw_type"]["drive"]["type"]

@@ -13,6 +13,7 @@ from system_state_machine.remove_screws_sm import RemoveScrews
 from system_state_machine.tool_change_sm import ToolChange
 from system_state_machine.unscrew_sm import Unscrew
 from yasmin_ros import ServiceState
+from geometry_msgs.msg import PoseStamped
 
 class Initialize(State):
     def __init__(self) -> None:
@@ -26,6 +27,7 @@ class Initialize(State):
         blackboard["n_detected_screws"] = 0
         blackboard["n_unscrew_successful"] = 0
         blackboard["n_remove_successful"] = 0
+        blackboard["screws_poses"] = None
         return "initialization_done"
     
 class SystemFailure(State):
