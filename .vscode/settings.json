@@ -6,5 +6,6 @@
     "python.analysis.extraPaths": [
         "/home/abdelrahman/ros1_workspaces/pr_ws/devel/lib/python3/dist-packages",
         "/opt/ros/noetic/lib/python3/dist-packages"
-    ]
+    ],
+    "cmake.ignoreCMakeListsMissing": true
 }

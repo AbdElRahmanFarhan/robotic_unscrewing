@@ -10,7 +10,7 @@
   <depend>std_msgs</depend>
   <depend>std_srvs</depend>
   <depend>geometry_msgs</depend>
-  <depend>screw_msgs</depend>
+  <depend>camera_msgs</depend>
   <depend>rclpy</depend>
   <depend>yasmin</depend>
   <depend>yasmin_ros</depend>

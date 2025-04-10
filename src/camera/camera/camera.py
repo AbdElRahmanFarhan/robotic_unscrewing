@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from screw_msgs.srv import DetectScrews
+from camera_msgs.srv import DetectScrews
 from camera.utils import read_screw_poses_from_json, json_data_to_ros, json_pose_to_pose_msg
     
 class Camera(Node):

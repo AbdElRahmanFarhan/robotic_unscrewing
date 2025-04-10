@@ -1,5 +1,5 @@
 from geometry_msgs.msg import Pose
-from screw_msgs.srv import DetectScrews
+from camera_msgs.srv import DetectScrews
 import json
 
 def json_pose_to_pose_msg(json_pose):
