@@ -4,9 +4,9 @@ moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControll
 
 moveit_simple_controller_manager:
   controller_names:
-    - screwdriver_controller
+    - arm_controller
 
-  screwdriver_controller:
+  arm_controller:
     type: FollowJointTrajectory
     joints:
       - joint_1

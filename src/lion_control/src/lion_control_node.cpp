@@ -22,7 +22,7 @@ class LionControlNode {
 public:
     LionControlNode(rclcpp::Node::SharedPtr node)
         : node_(node),
-          move_group_(node_, "screwdriver_group")
+          move_group_(node_, "arm_group")
     {
         sub1_ = node_->create_subscription<std_msgs::msg::String>("/lion_control/go_to_named_target", 1, 
             std::bind(&LionControlNode::goToNamedTarget, this, _1));

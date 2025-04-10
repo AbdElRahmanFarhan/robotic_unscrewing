@@ -166,6 +166,7 @@
   </link>
   <!-- screwdriver_tcp -->
   <link name="screwdriver_tcp"/>
+  <link name="vacuum_tcp"/>
   <!-- cylinder and piston -->
   <link name="cylinder_link">
     <inertial>
@@ -272,6 +273,11 @@
     <origin rpy="0 0 0" xyz="0.0 0.0 -0.3"/>
     <parent link="screwdriver"/>
     <child link="screwdriver_tcp"/>
+  </joint>
+    <joint name="screwdriver-vacuum_tcp" type="fixed">
+    <origin rpy="0 0 0" xyz="0.0 0.0 -0.3"/>
+    <parent link="screwdriver"/>
+    <child link="vacuum_tcp"/>
   </joint>
   <!-- piston & cylinder joints -->
   <joint name="piston_joint" type="continuous">

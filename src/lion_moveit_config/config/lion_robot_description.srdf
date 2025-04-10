@@ -9,7 +9,7 @@
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
-    <group name="screwdriver_group">
+    <group name="arm_group">
         <joint name="joint_1"/>
         <joint name="joint_2"/>
         <joint name="joint_3"/>
@@ -18,7 +18,7 @@
         <joint name="joint_6"/>
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
-    <group_state name="home" group="screwdriver_group">
+    <group_state name="home" group="arm_group">
         <joint name="joint_1" value="0"/>
         <joint name="joint_2" value="0"/>
         <joint name="joint_3" value="0"/>
@@ -26,8 +26,53 @@
         <joint name="joint_5" value="0"/>
         <joint name="joint_6" value="0"/>
     </group_state>
+
+    <group_state name="capture" group="arm_group">
+        <joint name="joint_1" value="9.311409987436217e-05"/>
+        <joint name="joint_2" value="0.17951105300334724"/>
+        <joint name="joint_4" value="-4.9402811918780335e-05"/>
+        <joint name="joint_5" value="1.0952353583091985"/>
+        <joint name="joint_3" value="0.28366424600080414"/>
+        <joint name="joint_6" value="-6.635482962531476e-05"/>
+    </group_state>
+
+    <group_state name="workpiece_start" group="arm_group">
+        <joint name="joint_1" value="-7.752058887854219e-05"/>
+        <joint name="joint_2" value="0.16707406313694692"/>
+        <joint name="joint_4" value="-5.228200424462557e-05"/>
+        <joint name="joint_5" value="-0.8142933686519225"/>
+        <joint name="joint_3" value="0.647205603807618"/>
+        <joint name="joint_6" value="6.011367980390788e-05"/>
+    </group_state> 
+    <group_state name="place_screws" group="arm_group">
+        <joint name="joint_1" value="-0.7382800465762992"/>
+        <joint name="joint_2" value="0.5173012656376272"/>
+        <joint name="joint_4" value="-0.9770418223125391"/>
+        <joint name="joint_5" value="-0.9477321388496829"/>
+        <joint name="joint_3" value="0.1441418953640011"/>
+        <joint name="joint_6" value="0.712898133341248"/>
+    </group_state>
+
+    <group_state name="tool_changer_bit" group="arm_group">
+        <joint name="joint_1" value="0.4204625303917239"/>
+        <joint name="joint_2" value="0.37088677692491473"/>
+        <joint name="joint_4" value="-1.0567132228829752"/>
+        <joint name="joint_5" value="-1.0782457208656904"/>
+        <joint name="joint_3" value="0.3708413878596149"/>
+        <joint name="joint_6" value="0.6970840497405134"/>
+    </group_state>
+
+    <group_state name="tool_changer_vacuum" group="arm_group">
+        <joint name="joint_1" value="0.4488907206575889"/>
+        <joint name="joint_2" value="0.33235187710370506"/>
+        <joint name="joint_4" value="-1.0232467518964283"/>
+        <joint name="joint_5" value="-1.0692431596807697"/>
+        <joint name="joint_3" value="0.426919666126619"/>
+        <joint name="joint_6" value="0.6679092802293404"/>
+    </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="screwdriver_bit" parent_link="screwdriver_tcp" group="screwdriver_group" parent_group=""/>
+    <end_effector name="screwdriver_tcp" parent_link="screwdriver_tcp" group="arm_group" parent_group=""/>
+    <end_effector name="vacuum_tcp" parent_link="vacuum_tcp" group="arm_group" parent_group=""/>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="world_joint" type="fixed" parent_frame="base_link" child_link="base"/>
     <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
