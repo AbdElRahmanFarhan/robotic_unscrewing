@@ -13,7 +13,7 @@ class Initialize(State):
         super().__init__(outcomes=["1", "2"])
 
     def execute(self, blackboard: Blackboard) -> str:
-        yasmin.YASMIN_LOG_INFO("System Failed")
+        yasmin.YASMIN_LOG_INFO("Tool Change")
 
         if blackboard["current_tool"] == blackboard["vacuum_tool"]:
             time.sleep(3)  # TODO: tool changing

@@ -206,10 +206,11 @@ class Update(State):
         )
 
     def execute(self, blackboard: Blackboard) -> str:
-        n_unscrew_successful = blackboard["n_unscrew_successful"]
+        n_unscrew_successful = deepcopy(blackboard["n_unscrew_successful"])
         n_unscrew_successful += 1
         if n_unscrew_successful == blackboard["n_screws_detected"]:
             yasmin.YASMIN_LOG_INFO("All Screws Unscrewed")
+            blackboard["n_unscrew_successful"] = n_unscrew_successful
             return "all"
         else:
             blackboard["n_unscrew_successful"] = n_unscrew_successful

@@ -28,21 +28,21 @@
     </group_state>
 
     <group_state name="capture" group="arm_group">
-        <joint name="joint_1" value="1.8451865139959556e-05"/>
-        <joint name="joint_2" value="0.14720805662220973"/>
-        <joint name="joint_4" value="1.5400767396719186"/>
-        <joint name="joint_5" value="-0.1287949727584882"/>
-        <joint name="joint_3" value="-1.4632534094522777e-05"/>
-        <joint name="joint_6" value="-4.630422571498728e-05"/>
+        <joint name="joint_1" value="8.40523614490802e-05"/>
+        <joint name="joint_2" value="0.09370336975015714"/>
+        <joint name="joint_4" value="4.699970835652094e-05"/>
+        <joint name="joint_5" value="1.5060564674485521"/>
+        <joint name="joint_3" value="-0.22515183799526867"/>
+        <joint name="joint_6" value="-3.2512573718131735e-05"/>
     </group_state>
 
     <group_state name="workpiece_start" group="arm_group">
-        <joint name="joint_1" value="-7.752058887854219e-05"/>
-        <joint name="joint_2" value="0.16707406313694692"/>
-        <joint name="joint_4" value="-5.228200424462557e-05"/>
-        <joint name="joint_5" value="-0.8142933686519225"/>
-        <joint name="joint_3" value="0.647205603807618"/>
-        <joint name="joint_6" value="6.011367980390788e-05"/>
+        <joint name="joint_1" value="-8.096033236943186e-05"/>
+        <joint name="joint_2" value="-0.012425446830877164"/>
+        <joint name="joint_4" value="-4.279568605124957e-06"/>
+        <joint name="joint_5" value="-0.12389045253623522"/>
+        <joint name="joint_3" value="0.13621263492311697"/>
+        <joint name="joint_6" value="3.8139570457860835e-05"/>
     </group_state> 
     <group_state name="place_screws" group="arm_group">
         <joint name="joint_1" value="-0.7382800465762992"/>

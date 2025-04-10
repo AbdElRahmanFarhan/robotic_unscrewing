@@ -5,8 +5,7 @@ import yasmin
 from yasmin import State
 from yasmin import Blackboard
 from yasmin import StateMachine
-from yasmin_ros import set_ros_loggers
-from yasmin_viewer import YasminViewerPub
+
 
 class RemoveScrews(StateMachine):
     def __init__(self) -> None:
@@ -15,7 +14,7 @@ class RemoveScrews(StateMachine):
                 "remove_in_progress",
                 "remove_successful",
                 "remove_failed",
-                "attach_vacuum",
+                "go_to_tool_changer",
             ]
         )
         self.add_state(
@@ -25,7 +24,7 @@ class RemoveScrews(StateMachine):
                 "1": "remove_in_progress",
                 "2": "remove_successful",
                 "3": "remove_failed",
-                "4": "attach_vacuum",
+                "4": "go_to_tool_changer",
             },
         )
         self.set_start_state("RemoveScrewsInit")
@@ -47,7 +46,7 @@ class Initialize(State):
 
         yasmin.YASMIN_LOG_INFO("Executing state RemoveScrews")
         
-        if blackboard["current_tool"] != blackboard["screwdriver_tool"]:
+        if blackboard["current_tool"] != blackboard["vacuum_tool"]:
             return "4"
 
         if self.n_remove_successful == blackboard["n_unscrew_successful"]:
