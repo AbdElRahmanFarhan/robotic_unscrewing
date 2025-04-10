@@ -58,7 +58,7 @@ private:
         RCLCPP_INFO(node_->get_logger(), "End effector Link: '%s'", move_group_.getEndEffectorLink().c_str());
         bool success = moveStraight(*goal);
         RCLCPP_INFO(node_->get_logger(), "Cartesian Motion: '%d'", success);
-    }   
+    }
     
     bool moveStraight(const geometry_msgs::msg::PoseStamped goal,
         bool avoid_collisions = true, 

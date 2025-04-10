@@ -19,7 +19,8 @@ setup(
     tests_require=["pytest"],
     entry_points={
         "console_scripts": [
-            "system_state_machine = system_state_machine.system_state_machine:main"
+            "system_sm = system_state_machine.system_sm:main",
+
         ],
     },
 )
