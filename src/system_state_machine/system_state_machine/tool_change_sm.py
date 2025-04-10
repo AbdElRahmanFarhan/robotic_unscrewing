@@ -27,12 +27,12 @@ class Initialize(State):
         
 class ToolChange(StateMachine):
     def __init__(self) -> None:
-        super().__init__(outcomes=["screwdriver_bit_attached", "vacuum_attached"])
+        super().__init__(outcomes=["screwdriver_tcp_attached", "vacuum_attached"])
         self.add_state(
             "ToolChangeInit",
             Initialize(),
             transitions={
-                "1": "screwdriver_bit_attached",
+                "1": "screwdriver_tcp_attached",
                 "2": "vacuum_attached",
             },
         )

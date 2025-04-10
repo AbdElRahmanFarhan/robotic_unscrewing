@@ -12,8 +12,6 @@ from system_state_machine.detect_screws_sm import DetectScrews
 from system_state_machine.remove_screws_sm import RemoveScrews
 from system_state_machine.tool_change_sm import ToolChange
 from system_state_machine.unscrew_sm import Unscrew
-from yasmin_ros import ServiceState
-from geometry_msgs.msg import PoseStamped
 
 class Initialize(State):
     def __init__(self) -> None:
@@ -21,13 +19,13 @@ class Initialize(State):
 
     def execute(self, blackboard: Blackboard) -> str:
         yasmin.YASMIN_LOG_INFO("Initialize")
-        blackboard["current_tool"] = "screwdriver_bit"  # TODO:
-        blackboard["screwdriver_tool"] = "screwdriver_bit"  # TODO:
-        blackboard["vacuum_tool"] = "screwdriver_vacuum"  # TODO:
+        blackboard["current_tool"] = "screwdriver_tcp"
+        blackboard["screwdriver_tool"] = "screwdriver_tcp"
+        blackboard["vacuum_tool"] = "vacuum_tcp" 
         blackboard["n_detected_screws"] = 0
         blackboard["n_unscrew_successful"] = 0
         blackboard["n_remove_successful"] = 0
-        blackboard["screws_poses"] = None
+        blackboard["screws"] = None
         return "initialization_done"
     
 class SystemFailure(State):
@@ -71,7 +69,7 @@ def main():
             "unscrew_in_progress": "Unscrew",
             "unscrew_successful": "RemoveScrews",
             "unscrew_failed": "SystemFailure",
-            "attach_screwdriver_bit": "ToolChange",
+            "go_to_tool_changer": "ToolChange",
         },
     )
     sm.add_state(
@@ -81,7 +79,7 @@ def main():
             "remove_in_progress": "RemoveScrews",
             "remove_successful": "SUCCESSED",
             "remove_failed": "SystemFailure",
-            "attach_vacuum": "ToolChange",
+            "go_to_tool_changer": "ToolChange",
         },
     )
     sm.add_state(
@@ -95,7 +93,7 @@ def main():
         "ToolChange",
         ToolChange(),
         transitions={
-            "screwdriver_bit_attached": "Unscrew",
+            "screwdriver_tcp_attached": "Unscrew",
             "vacuum_attached": "RemoveScrews",
         },
     )

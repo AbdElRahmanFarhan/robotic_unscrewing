@@ -23,6 +23,7 @@ setup(
         "console_scripts": [
             "system_sm = system_state_machine.system_sm:main",
             "detect_screws_sm = system_state_machine.detect_screws_sm:main",
+            "unscrew_sm = system_state_machine.unscrew_sm:main",
 
         ],
     },

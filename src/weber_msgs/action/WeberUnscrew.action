@@ -1,0 +1,8 @@
+float32 stroke_dist
+float32 retreat_dist
+float32 torque
+float32 force
+---
+weber_msgs/WeberUnscrewStatus final_status
+---
+weber_msgs/WeberUnscrewStatus status

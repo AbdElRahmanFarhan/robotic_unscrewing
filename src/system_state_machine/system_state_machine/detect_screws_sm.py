@@ -13,30 +13,20 @@ from lion_msgs.msg import GoalType
 from camera_msgs.srv import GetDetectedScrews
 from yasmin_viewer import YasminViewerPub
 
-
-class Initialize(State):
-    def __init__(self) -> None:
-        super().__init__(outcomes=["initialization_done"])
-
-    def execute(self, blackboard: Blackboard) -> str:
-        time.sleep(3)
-        return "initialization_done"
-
-
 class RobotAtCapturePose(ActionState):
     def __init__(self):
         super().__init__(
             SetGoalRobot,
             "/lion_control/go_to_goal",
             self.create_goal_handler,
-            ["robot_at_capture_pose", "robot_failed"],
+            ["robot_success", "robot_failed"],
             self.response_handler,
             None,
         )
 
     def create_goal_handler(self, blackboard: Blackboard) -> SetGoalRobot.Goal:
         goal = SetGoalRobot.Goal()
-        goal.end_effector = "screwdriver_bit"  # TODO: add camera to urdf and change the end effector here
+        goal.end_effector = "screwdriver_tcp"  # TODO: add camera to urdf and change the end effector here
         goal.goal_type.val = GoalType.NAMED
         goal.named_goal = "capture"  # according to srdf
         return goal
@@ -45,7 +35,7 @@ class RobotAtCapturePose(ActionState):
         self, blackboard: Blackboard, response: SetGoalRobot.Result
     ) -> str:
         if response.success:
-            return "robot_at_capture_pose"
+            return "robot_success"
         else:
             return "robot_failed"
 
@@ -71,27 +61,47 @@ class CameraDetect(ServiceState):
     ) -> str:
         if len(response.poses) > 0:
             blackboard["n_screws_detected"] = len(response.poses)
-            blackboard["screws_poses"] = response.poses
+            blackboard["screws"] = response
             return "detected"
         else:
             return "detection_failed"
+
+class RobotAtWorkPiecePose(ActionState):
+    def __init__(self):
+        super().__init__(
+            SetGoalRobot,
+            "/lion_control/go_to_goal",
+            self.create_goal_handler,
+            ["robot_success", "robot_failed"],
+            self.response_handler,
+            None,
+        )
+
+    def create_goal_handler(self, blackboard: Blackboard) -> SetGoalRobot.Goal:
+        goal = SetGoalRobot.Goal()
+        goal.end_effector = "screwdriver_tcp"
+        goal.goal_type.val = GoalType.NAMED
+        goal.named_goal = "workpiece_start"
+        return goal
+
+    def response_handler(
+        self, blackboard: Blackboard, response: SetGoalRobot.Result
+    ) -> str:
+        if response.success:
+            return "robot_success"
+        else:
+            return "robot_failed"
 
 
 class DetectScrews(StateMachine):
     def __init__(self) -> None:
         super().__init__(outcomes=["screws_detected", "nothing_detected"])
-        self.add_state(
-            "DetectScrewsInit",
-            Initialize(),
-            transitions={
-                "initialization_done": "RobotAtCapturePose",
-            },
-        )
+
         self.add_state(
             "RobotAtCapturePose",
             RobotAtCapturePose(),
             transitions={
-                "robot_at_capture_pose": "CameraDetect",
+                "robot_success": "CameraDetect",
                 "robot_failed": "nothing_detected",
             },
         )
@@ -99,11 +109,19 @@ class DetectScrews(StateMachine):
             "CameraDetect",
             CameraDetect(),
             transitions={
-                "detected": "screws_detected",
+                "detected": "RobotAtWorkPiecePose",
                 "detection_failed": "nothing_detected",
             },
         )
-        self.set_start_state("DetectScrewsInit")
+        self.add_state(
+            "RobotAtWorkPiecePose",
+            RobotAtWorkPiecePose(),
+            transitions={
+                "robot_success": "screws_detected",
+                "robot_failed": "nothing_detected",
+            },
+        )
+        self.set_start_state("RobotAtCapturePose")
 
 
 def main():

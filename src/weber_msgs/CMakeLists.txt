@@ -11,8 +11,8 @@ find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/UnscrewStatus.msg"
-  "action/Unscrew.action"
+  "msg/WeberUnscrewStatus.msg"
+  "action/WeberUnscrew.action"
   "srv/AttachTool.srv"
 )
 if(BUILD_TESTING)
