@@ -11,6 +11,7 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro 
       - /home/abdelrahman/circu_li_ion_case_study/robotic_unscrewing/src:/home/ubuntu/ros2_ws/src/
+      - /home/abdelrahman/circu_li_ion_case_study/robotic_unscrewing/.vscode-server:/home/ubuntu/.vscode-server
 
     entrypoint: ["/bin/bash"]
     tty: true

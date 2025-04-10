@@ -11,7 +11,7 @@
 #include <moveit/move_group_interface/move_group_interface.hpp>
 #include <moveit_msgs/msg/robot_trajectory.hpp>
 #include <moveit/robot_state/robot_state.hpp>
-
+#include <lion_msgs/action/set_goal_robot.hpp>
 #include "tf2/exceptions.h"
 #include "tf2_ros/transform_listener.h"
 #include "tf2_ros/buffer.h"
