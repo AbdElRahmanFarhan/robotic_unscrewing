@@ -12,6 +12,7 @@ find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(moveit_msgs REQUIRED)
 find_package(moveit_visual_tools REQUIRED)
+find_package(lion_msgs REQUIRED)
 
 add_executable(lion_control_node src/lion_control_node.cpp)
 target_include_directories(lion_control_node PUBLIC
@@ -25,6 +26,7 @@ ament_target_dependencies(
   "geometry_msgs"
   "moveit_visual_tools"
   "moveit_msgs"
+  "lion_msgs"
 )
 
 install(TARGETS lion_control_node
